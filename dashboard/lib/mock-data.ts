@@ -92,6 +92,8 @@ export function updateTask(
     }
     if ((updates.status === 'completed' || updates.status === 'failed') && !updatedTask.completedAt) {
       updatedTask.completedAt = new Date();
+      // Track completion time for "Task complete" message
+      setLastTaskCompletionTime(updatedTask.completedAt);
     }
 
     mockTasks[index] = updatedTask;
@@ -115,6 +117,17 @@ export const mockRobotStatus: RobotStatus = {
   currentActivity: 'Moving sample PCR-2025-001 from Bench A to Bench B',
   lastUpdated: new Date(),
 };
+
+// Track last task completion time for "Task complete" message
+let lastTaskCompletionTime: Date | null = null;
+
+export function setLastTaskCompletionTime(time: Date | null) {
+  lastTaskCompletionTime = time;
+}
+
+export function getLastTaskCompletionTime(): Date | null {
+  return lastTaskCompletionTime;
+}
 
 // Storage locations for dropdowns
 export const storageLocations = [

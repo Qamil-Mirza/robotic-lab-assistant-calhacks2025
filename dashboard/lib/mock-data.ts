@@ -4,51 +4,11 @@ import { Sample, Task, RobotStatus, ProtocolPhase } from '@/types';
 export const mockSamples: Sample[] = [
   {
     id: 'PCR-2025-001',
-    storageLocation: 'Freezer A3',
-    currentPhase: 'Assembly',
-    completedPhases: ['PCR', 'Gel', 'Zymo'],
+    storageLocation: 'Bench A',
+    currentPhase: 'Picking',
+    completedPhases: ['PCR', 'Gel', 'Zymo', 'Assembly', 'Transformation'],
     lastUpdated: new Date('2025-10-25T10:30:00'),
     status: 'active',
-  },
-  {
-    id: 'PCR-2025-002',
-    storageLocation: 'Bench B',
-    currentPhase: 'Gel',
-    completedPhases: ['PCR'],
-    lastUpdated: new Date('2025-10-25T09:15:00'),
-    status: 'active',
-  },
-  {
-    id: 'PCR-2025-003',
-    storageLocation: 'Freezer B1',
-    currentPhase: 'Miniprep',
-    completedPhases: ['PCR', 'Gel', 'Zymo', 'Assembly', 'Transformation', 'Picking'],
-    lastUpdated: new Date('2025-10-25T08:45:00'),
-    status: 'active',
-  },
-  {
-    id: 'PCR-2025-004',
-    storageLocation: 'Bench A',
-    currentPhase: 'PCR',
-    completedPhases: [],
-    lastUpdated: new Date('2025-10-25T11:00:00'),
-    status: 'active',
-  },
-  {
-    id: 'PCR-2025-005',
-    storageLocation: 'Freezer A2',
-    currentPhase: 'Transformation',
-    completedPhases: ['PCR', 'Gel', 'Zymo', 'Assembly'],
-    lastUpdated: new Date('2025-10-24T16:20:00'),
-    status: 'active',
-  },
-  {
-    id: 'PCR-2025-006',
-    storageLocation: 'Bench C',
-    currentPhase: 'Sequence',
-    completedPhases: ['PCR', 'Gel', 'Zymo', 'Assembly', 'Transformation', 'Picking', 'Miniprep'],
-    lastUpdated: new Date('2025-10-25T07:30:00'),
-    status: 'completed',
   },
 ];
 
@@ -114,7 +74,7 @@ export function deleteTask(taskId: string): boolean {
 // Mock robot status
 export const mockRobotStatus: RobotStatus = {
   connectionStatus: 'connected',
-  currentActivity: 'Moving sample PCR-2025-001 from Bench A to Bench B',
+  currentActivity: null,
   lastUpdated: new Date(),
 };
 

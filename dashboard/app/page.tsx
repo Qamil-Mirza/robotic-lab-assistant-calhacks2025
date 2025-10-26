@@ -102,6 +102,27 @@ export default function DashboardPage() {
     }
   };
 
+  const handleExecuteTask = async (taskId: string) => {
+    try {
+      const response = await fetch(`/api/tasks/${taskId}/execute`, {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Update the task in the list
+        setTasks(tasks.map((t) => (t.id === taskId ? data.task : t)));
+      } else {
+        const error = await response.json();
+        console.error('Failed to execute task:', error);
+        alert(`Failed to execute task: ${error.error}`);
+      }
+    } catch (error) {
+      console.error('Failed to execute task:', error);
+      alert('Failed to execute task. Make sure the robot server is running on port 8000.');
+    }
+  };
+
   const handleEmergencyStop = () => {
     // In a real application, this would send a signal to the robot
     console.log('EMERGENCY STOP TRIGGERED');
@@ -207,6 +228,7 @@ export default function DashboardPage() {
                 samples={samples}
                 onCreateTask={handleCreateTask}
                 onCancelTask={handleCancelTask}
+                onExecuteTask={handleExecuteTask}
               />
             </div>
           </div>

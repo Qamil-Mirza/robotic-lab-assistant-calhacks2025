@@ -28,7 +28,7 @@ export interface Sample {
   status: 'active' | 'completed' | 'failed';
 }
 
-export type TaskType = 'move';
+export type TaskType = 'move' | 'photograph';
 
 export type TaskStatus = 'queued' | 'in_progress' | 'completed' | 'failed';
 
@@ -40,6 +40,7 @@ export interface Task {
   type: TaskType;
   source: string;
   destination: string;
+  description?: string; // optional description for non-move tasks
   status: TaskStatus;
   priority: TaskPriority;
   estimatedDuration: number; // seconds

@@ -28,7 +28,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { ArrowRight, Clock, Plus, X, AlertCircle } from 'lucide-react';
+import { ArrowRight, Clock, Plus, X, AlertCircle, Play } from 'lucide-react';
 import { format } from 'date-fns';
 import { storageLocations } from '@/lib/mock-data';
 
@@ -92,6 +92,7 @@ interface TaskQueueProps {
   samples: Sample[];
   onCreateTask: (taskInput: CreateTaskInput) => Promise<void>;
   onCancelTask: (taskId: string) => Promise<void>;
+  onExecuteTask: (taskId: string) => Promise<void>;
 }
 
 export function TaskQueue({
@@ -99,6 +100,7 @@ export function TaskQueue({
   samples,
   onCreateTask,
   onCancelTask,
+  onExecuteTask,
 }: TaskQueueProps) {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [selectedSampleId, setSelectedSampleId] = useState<string>('');
@@ -308,11 +310,17 @@ export function TaskQueue({
                       <div className="flex items-center gap-2 text-sm font-medium mb-1">
                         <span className="text-gray-700">{task.sampleId}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-sm text-gray-600">
-                        <span>{task.source}</span>
-                        <ArrowRight className="h-4 w-4" />
-                        <span>{task.destination}</span>
-                      </div>
+                      {task.type === 'photograph' && task.description ? (
+                        <div className="text-sm text-gray-600">
+                          {task.description}
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <span>{task.source}</span>
+                          <ArrowRight className="h-4 w-4" />
+                          <span>{task.destination}</span>
+                        </div>
+                      )}
                       <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
                         <TaskTimer task={task} />
                         <span>
@@ -320,14 +328,26 @@ export function TaskQueue({
                         </span>
                       </div>
                     </div>
-                    <Button
-                      size="sm"
-                      variant="ghost"
-                      onClick={() => onCancelTask(task.id)}
-                      className="text-red-600 hover:text-red-700 hover:bg-red-50"
-                    >
-                      <X className="h-4 w-4" />
-                    </Button>
+                    <div className="flex gap-2">
+                      {task.status === 'queued' && (
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => onExecuteTask(task.id)}
+                          className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                        >
+                          <Play className="h-4 w-4" />
+                        </Button>
+                      )}
+                      <Button
+                        size="sm"
+                        variant="ghost"
+                        onClick={() => onCancelTask(task.id)}
+                        className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                 </Card>
               ))}
